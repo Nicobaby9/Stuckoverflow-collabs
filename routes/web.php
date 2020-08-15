@@ -19,9 +19,9 @@ Route::get('/', function () {
     return view('layouts.frontweb');
 });
 
-// Route::get('/register', 'AuthController@register');
+Route::get('/register', 'AuthController@register');
 
-// Route::post('/welcome', 'AuthController@welcome');
+Route::post('/welcome', 'AuthController@welcome');
 
 Auth::routes();
 
@@ -29,7 +29,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('question', 'PertanyaanController')->middleware('auth');
 
-Route::resource('thread', 'ThreadController')->middleware('auth');
+Route::resource('thread', 'ThreadController');
 
 Route::resource('jawab', 'JawabController')->middleware('auth');
 
@@ -37,9 +37,12 @@ Route::resource('komentarPertanyaan', 'komentarPertanyaanController')->middlewar
 
 Route::resource('komentarJawaban', 'komentarJawabanController')->middleware('auth');
 
+<<<<<<< HEAD
 Route::post('/thread/show', 'LikeController@toggleLike')->name('toggleLike');
 
 
+=======
+>>>>>>> dcf96ccc3b7e6f15b38ff92c620c21c8c55d0679
 Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
     \UniSharp\LaravelFilemanager\Lfm::routes();
 });

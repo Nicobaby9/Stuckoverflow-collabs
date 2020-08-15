@@ -6,7 +6,7 @@
       <div class="container" >
         <h1 class=" mb-0" style="font-size: 60px">Selamat Datang di Tumpukan Luber</h1>
         <h2 class=" mb-0" style="font-size: 40px">Forum Diskusi Pemograman Terbesar di Indonesia</h2>
-        <a href="#" class="btn btn-primary btn-xl rounded-pill mt-5">Cek Forum</a>
+        <a href="/thread" class="btn btn-primary btn-xl rounded-pill mt-5">Cek Forum</a>
       </div>
     </div>
     <div class="bg-circle-1 bg-circle"></div>
