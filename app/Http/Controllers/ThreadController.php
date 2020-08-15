@@ -87,6 +87,14 @@ class ThreadController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $updatetanya = Pertanyaan::where('id', $id)->update([
+            'point_vote' => $request['point_vote_pertanyaan']
+        ]);
+        $updatejawab = Jawaban::where('id', $id)->update([
+            'point_vote' => $request['point_vote_jawaban']
+        ]);
+
+        return redirect('thread.show');
     }
 
     /**

@@ -8,6 +8,40 @@ use App\Pertanyaan;
 
 @push('script-head')
   <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+  <script>
+//   function likeIt(jawabId,elem){
+//     var csrfToken='{{csrf_token()}}';
+//     var likesCount=parseInt($('#'+jawabId+"-count").text());
+//     $.post('{{route('thread.update', [$pertanyaan->id])}}', {jawabId: jawabId,_token:csrfToken}, function (data) {
+//         console.log(data);
+//        if(data.message==='liked'){
+//            $(elem).addClass('liked');
+//            $('#'+"angka--"+jawabId+"-count").text(likesCount+1);
+// //                   $(elem).css({color:'red'});
+//        }else if(data.message==='unliked'){
+// //                   $(elem).css({color:'black'});
+//            $(elem).addClass('liked');
+//            $('#'+jawabId+"-count").text(likesCount-1);
+//           //  $(elem).removeClass('liked');
+//        }
+//     });
+//}
+// function voteUpJawab() {
+//   if (str == "") {
+//     document.getElementById("txtHint").innerHTML = "";
+//     return;
+//   } else {
+//     var xmlhttp = new XMLHttpRequest();
+//     xmlhttp.onreadystatechange = function() {
+//       if (this.readyState == 4 && this.status == 200) {
+//         document.getElementById("txtHint").innerHTML = this.responseText;
+//       }
+//     };
+//     xmlhttp.open("GET","getuser.php?q="+str,true);
+//     xmlhttp.send();
+//   }
+// }
+</script>
 @endpush
 
 @section('content')
@@ -47,9 +81,10 @@ use App\Pertanyaan;
             <h4>
               <p style="font-size: 16px;">{{ $user->name }}</p> 
               <label for="exampleInputEmail1">Pertanyaan : {{ $pertanyaan->judul}}</label>
-              <button class="btn btn-xs fa fa-chevron-up" style="float: right;"></button>
-              <label style="float: right;">0</label>
-              <button class="btn btn-xs fa fa-chevron-down" style="float: right;"></button>
+              <button id="voteUpTanya" class="btn btn-xs fa fa-chevron-up" style="float: right;"></button>
+            <input type="number" id="vote" style="float: right; width:40px;" readonly value="{{$pertanyaan->point_vote}}" min="0" name="point_vote_pertanyaan"/>
+              {{-- <input type="number" id="angka" style="float: right; width:30px;" placeholder="0" min="0" max="100" readonly/> --}}
+              <button id="voteDownTanya" class="btn btn-xs fa fa-chevron-down" style="float: right;"></button>
               <p style="color: grey; font-size: 11px;">Created at : {{ $pertanyaan->created_at }}&nbsp;&nbsp; - &nbsp;&nbsp; Updated at : {{ $pertanyaan->updated_at }}</p>
             </h4>
           </div>
@@ -92,6 +127,12 @@ use App\Pertanyaan;
         @else
         <div class="form-group" style="border-bottom: 1px solid black; padding-bottom: 16px;">
           <p id="exampleInputEmail1">{!! $jawab->isi !!} </p>
+          <button id="{{$jawab->id}}-count" class="btn btn-xs fa fa-chevron-up " style="float: right;" onclick="likeIt('{{$jawab->id}}',this)"></button>
+          <input type="number" id="angka--{{$jawab->id}}-count" style="float: right; width:30px;" readonly value="{{ $jawab->point_vote}}" min="0" name="point_vote_jawaban"/>
+          {{-- <a href="{{ route('thread.update', [$pertanyaan->id]) }}" id="voteUpJawab" class="btn btn-xs fa fa-chevron-up" style="float: right;"></a>
+          <input type="number" id="angka" style="float: right; width:30px;" readonly value="{{ $jawab->point_vote}}" min="0" name="point_vote_jawaban"/> --}}
+          {{-- <input type="number" id="angka" style="float: right; width:30px;" placeholder="0" min="0" max="100" readonly/> --}}
+          <a href="{{ route('thread.update', [$pertanyaan->id]) }}" id="voteDownJawab" class="btn btn-xs fa fa-chevron-down" style="float: right;"></a>
           <a href="{{ route('komentarJawaban.show', [$jawab->id]) }}" class="btn btn-dark btn-xs">Detail Jawaban</a>
           <a href="{{ route('komentarJawaban.create') }}" class="btn btn-primary btn-xs">Berikan Komentar</a>
           <br>
@@ -144,6 +185,51 @@ use App\Pertanyaan;
   };
 
   tinymce.init(editor_config);
+  
+  // let vote = document.getElementById('vote');
+  // let voteUpTanya = document.getElementById('voteUpTanya');
+  // let voteDownTanya = document.getElementById('voteDownTanya');
+
+  // voteUpTanya.addEventListener("click", function(e){
+  //   vote.value = parseInt(vote.value) + 1;
+  // });
+
+  // voteDownTanya.addEventListener("click", function(e){
+  //   vote.value = parseInt(vote.value) - 1;
+  // });
+  // let angka = document.getElementById('angka');
+  // let voteUpJawab = document.getElementById('voteUpJawab');
+  // let voteDownJawab = document.getElementById('voteDownJawab');
+
+  // voteUpJawab.addEventListener("click", function(e){
+  //   angka.value = parseInt(angka.value) + 1;
+  // });
+
+  // voteDownJawab.addEventListener("click", function(e){
+  //   angka.value = parseInt(angka.value) - 1;
+  // });
+  
+  function likeIt(jawabId,elem){
+            var csrfToken='{{csrf_token()}}';
+            var likesCount=parseInt($('#'+jawabId+"-count").text());
+            $.post('{{route('toggleLike')}}', {jawabId: jawabId,_token:csrfToken}, function (data) {
+                console.log(data);
+               if(data.message==='liked'){
+                   $(elem).addClass('liked');
+                   $('#'+"angka--"+jawabId+"-count").text(likesCount+1);
+//                   $(elem).css({color:'red'});
+               }else if(data.message==='unliked'){
+//                   $(elem).css({color:'black'});
+                   $(elem).addClass('liked');
+                   $('#'+jawabId+"-count").text(likesCount-1);
+                  //  $(elem).removeClass('liked');
+               }
+            });
+
+        }
+  // if(angka.value < 0){
+  //   return 0;
+  // }
 </script>
 
 @endpush
