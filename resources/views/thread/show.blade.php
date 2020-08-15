@@ -120,6 +120,9 @@ use App\Pertanyaan;
         <div class="form-group" style="border-bottom: 1px solid black; padding-bottom: 16px;">
           <button class="btn btn-xs fa fa-check" style="float: right;"></button>
           <p id="exampleInputEmail1">{!! $jawab->isi !!} </p>
+          <button id="{{$jawab->id}}-count" class="btn btn-xs fa fa-chevron-up" style="float: right;" onclick="likeIt('{{$jawab->id}}',this)"></button>
+          <input type="number" id="angka--{{$jawab->id}}-count" style="float: right; width:30px;" readonly value="{{ $jawab->point_vote}}" min="0" name="point_vote_jawaban"/>
+          <a href="{{ route('thread.update', [$pertanyaan->id]) }}" id="voteDownJawab" class="btn btn-xs fa fa-chevron-down" style="float: right;"></a>
           <a href="{{ route('komentarJawaban.show', [$jawab->id]) }}" class="btn btn-dark btn-xs">Detail Jawaban</a>
           <a href="{{ route('komentarJawaban.create') }}" class="btn btn-primary btn-xs">Berikan Komentar</a>
           <br>
@@ -131,7 +134,6 @@ use App\Pertanyaan;
           <input type="number" id="angka--{{$jawab->id}}-count" style="float: right; width:30px;" readonly value="{{ $jawab->point_vote}}" min="0" name="point_vote_jawaban"/>
           {{-- <a href="{{ route('thread.update', [$pertanyaan->id]) }}" id="voteUpJawab" class="btn btn-xs fa fa-chevron-up" style="float: right;"></a>
           <input type="number" id="angka" style="float: right; width:30px;" readonly value="{{ $jawab->point_vote}}" min="0" name="point_vote_jawaban"/> --}}
-          {{-- <input type="number" id="angka" style="float: right; width:30px;" placeholder="0" min="0" max="100" readonly/> --}}
           <a href="{{ route('thread.update', [$pertanyaan->id]) }}" id="voteDownJawab" class="btn btn-xs fa fa-chevron-down" style="float: right;"></a>
           <a href="{{ route('komentarJawaban.show', [$jawab->id]) }}" class="btn btn-dark btn-xs">Detail Jawaban</a>
           <a href="{{ route('komentarJawaban.create') }}" class="btn btn-primary btn-xs">Berikan Komentar</a>

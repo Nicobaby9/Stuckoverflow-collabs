@@ -12,16 +12,11 @@
 */
 
 use Illuminate\Support\Facades\Route;
-
 use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return view('layouts.frontweb');
 });
-
-Route::get('/register', 'AuthController@register');
-
-Route::post('/welcome', 'AuthController@welcome');
 
 Auth::routes();
 
@@ -37,12 +32,8 @@ Route::resource('komentarPertanyaan', 'komentarPertanyaanController')->middlewar
 
 Route::resource('komentarJawaban', 'komentarJawabanController')->middleware('auth');
 
-<<<<<<< HEAD
 Route::post('/thread/show', 'LikeController@toggleLike')->name('toggleLike');
 
-
-=======
->>>>>>> dcf96ccc3b7e6f15b38ff92c620c21c8c55d0679
 Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
     \UniSharp\LaravelFilemanager\Lfm::routes();
 });
