@@ -9,6 +9,7 @@
     </a>
 
     <!-- Sidebar -->
+    @if(Auth::user())
     <div class="sidebar">
       <!-- Sidebar user (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
@@ -16,7 +17,7 @@
           <img src="{{ asset('/adminLTE/dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">{{ Auth::user()->profile->fullname }} </a>
+          <a href="#" class="d-block">{{ Auth::user()->name }} </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
               <a class="dropdown-item" href="{{ route('logout') }}"
                  onclick="event.preventDefault();
@@ -37,22 +38,16 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+            <a class="nav-link">
+              <i class="nav-icon fa fa-id-card-o"></i>
               <p>
-                Dashboard
-                <i class="right fas fa-angle-left"></i>
+                Score &nbsp;:&nbsp; {{ Auth::user()->reputation }}
               </p>
             </a>
           </li>
           <li class="nav-header">
             <a href="/thread">
               <h5>Forums</h5>
-            </a>
-          </li>
-          <li class="nav-item has-treeview">
-            <a href="/profile" class="nav-link">
-              Profiles
             </a>
           </li>
           <li class="nav-item has-treeview">
@@ -69,5 +64,16 @@
       </nav>
       <!-- /.sidebar-menu -->
     </div>
+    @else
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <li class="nav-item has-treeview">
+            <a href="/login" class="nav-link">
+              Login
+            </a>
+          </li>
+        </ul>
+      </nav>
+    @endif
     <!-- /.sidebar -->
   </aside>

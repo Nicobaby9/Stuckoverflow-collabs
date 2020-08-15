@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\DB;
 use App\Pertanyaan;
 use App\Jawaban;
 use App\Tag;
+use App\User;
+
 use Auth;
 use Alert;
 
@@ -132,6 +134,20 @@ class PertanyaanController extends Controller
             'jawaban_tepat_id' => $request['jawaban_tepat_id']
         ]); 
 
+        $pertanyaan = Pertanyaan::find($id);
+        $jawaban_tepat = Jawaban::where('id', $pertanyaan->jawaban_tepat_id)->first();
+        $user = User::where('id', $jawaban_tepat->user_id)->first();
+
+        // dd($user);
+
+        if($jawaban_tepat) {
+
+            $reputation = User::find($user)->first();
+            $reputation->reputation += 15;
+
+            $reputation->save();
+        }
+        
         return redirect('/question')->with('success', 'Data Berhasil Diubah');
     }
 
