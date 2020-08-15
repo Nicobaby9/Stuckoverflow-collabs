@@ -1,41 +1,52 @@
-<?php 
-
-use App\Pertanyaan;
-
- ?>
-
 @extends('adminLTE.master')
-
+@push('script-head')
+  <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+@endpush
 @section('content')
-  <div class="col-md-12">
+	<div class="col-md-12">
     <!-- general form elements -->
     <div class="card card-primary">
       <div class="card-header">
-        <h3 class="card-title">Forums</h3>
+        <h3 class="card-title">Edit Jawaban</h3>
       </div>
       <!-- /.card-header -->
-        @if (session('success'))
-          <div class="alert alert-success">
-           {{ session('success') }}
-          </div>
-        @endif
+      <!-- form start -->
+      @if ($errors->any())
+      <div class="alert alert-danger">
+          <ul>
+              @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+              @endforeach
+          </ul>
+        </div>
+      @endif
 
-        @forelse($pertanyaan as $tanya)
+      <form role="form" action="{{ route('jawab.update', [$jawaban->id]) }}" method="post">
+        @csrf
+        @method('PUT')
         <div class="card-body">
           <div class="form-group">
-            <h5>
-              <label for="exampleInputEmail1">{{ $tanya->judul }}</label> 
-            </h5>
+            <label>Pertanyaan</label>
+            <select class="form-control" name="pertanyaan_id" >
+              @forelse($pertanyaan as $t)
+              <option value="{{ $t->id }}">Pertanyaan : {!! $t->isi !!}</option>
+              @empty
+              <h5 value="0">Belum ada jawaban</h5>
+              @endforelse
+            </select>
           </div>
           <div class="form-group">
-            <p style="color: grey; font-size: 15px;">Deskripsi : </p>
-            <p class="form-group" id="exampleInputEmail1"> {!! $tanya->isi !!} </p>
+            <label for="">Jawaban Anda</label>
+            <p for="exampleInputEmail1"> {!! $jawaban->isi !!} </p>
           </div>
-          <a href="{{ route('thread.show', [$tanya->id]) }}" class="btn btn-info btn-sm">Detail Pertanyaan</a>
+          <div class="form-froup">
+            <label for="judul">Jawaban</label>
+            <textarea name="isi" class="form-control my-editor">{!! old('isi', $isi ?? '') !!}</textarea>
+          </div>
+        <div class="card-footer">
+          <button type="submit" class="btn btn-primary" value="save" name="submit" onclick="return confirm('Apakah jawaban sudah valid?')">Submit</button>
         </div>
-          @empty
-          <p>Tidak ada pertanyaan</p>
-        @endforelse
+      </form>
     </div>
   </div>
 @endsection

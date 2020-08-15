@@ -20,7 +20,8 @@ class JawabController extends Controller
      */
     public function index()
     {
-        $jawaban = Jawaban::all();
+        $user = Auth::user();
+        $jawaban = $user->jawabans;
 
         return view('jawab.index', compact('jawaban'));
     }
@@ -73,9 +74,10 @@ class JawabController extends Controller
      */
     public function show($id)
     {
-        $pertanyaan = Pertanyaan::findOrFail($id);
-        $jawaban = Jawaban::where('pertanyaan_id', $id)->get();
 
+        $jawaban = Jawaban::findOrFail($id);
+        $pertanyaan = Pertanyaan::where('id', $jawaban->pertanyaan_id)->first();
+        // dd($pertanyaan);
         return view('jawab.show', compact('pertanyaan', 'jawaban'));
     }
 
@@ -87,7 +89,12 @@ class JawabController extends Controller
      */
     public function edit($id)
     {
-        //
+        $jawaban = Jawaban::findOrFail($id);
+        $pertanyaan = Pertanyaan::where('id', $jawaban->pertanyaan_id)->get();
+
+        // dd($users);
+
+        return view('jawab.edit', compact('pertanyaan', 'jawaban'));
     }
 
     /**
@@ -99,7 +106,11 @@ class JawabController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+         $update = Jawaban::where('id', $id)->update([
+            'isi' => $request['isi']
+        ]); 
+
+        return redirect('/jawab')->with('success', 'Jawaban Berhasil Diubah');
     }
 
     /**
@@ -110,6 +121,12 @@ class JawabController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $delete = Jawaban::destroy($id);
+
+        // dd($delete);
+
+        Alert::alert('Berhasil', 'Data berhasil dihapus', 'warning');
+
+        return redirect('/jawab')->with('success', 'Sukses mengahapus Jawaban.');
     }
 }

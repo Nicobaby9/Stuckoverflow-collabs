@@ -4,20 +4,16 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Jawaban extends Model
+class KomentarPertanyaan extends Model
 {
-    protected $table = 'jawaban';
+    protected $table = 'komentar_pertanyaan';
     protected $guarded = [];
 
     public function author() {
     	return $this->hasMany('App\User', 'user_id');
     }
 
-    public function jawaban() {
+    public function komentar_pertanyaan() {
     	return $this->belongsTo('App\Pertanyaan', 'pertanyaan_id');
-    }
-
-    public function jawaban_tepat() {
-        return $this->belongsTo('App\Pertanyaan', 'jawaban_tepat_id');
     }
 }

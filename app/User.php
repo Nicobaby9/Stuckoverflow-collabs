@@ -48,4 +48,8 @@ class User extends Authenticatable
     public function jawabans() {
         return $this->hasMany('App\Jawaban', 'user_id');
     }
+
+    public function komentar_pertanyaan() {
+        return $this->hasMany('App\KomentarPertanyaan', 'user_id');
+    }
 }

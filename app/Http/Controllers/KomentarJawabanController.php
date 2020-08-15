@@ -5,13 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-use App\Pertanyaan;
 use App\Jawaban;
-use App\KomentarPertanyaan;
-use App\User;
+use App\KomentarJawaban;
 use Auth;
+use Alert;
 
-class ThreadController extends Controller
+class KomentarJawabanController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,11 +19,7 @@ class ThreadController extends Controller
      */
     public function index()
     {
-        $pertanyaan = Pertanyaan::all();
-
-        // dd($pertanyaan);
-
-        return view('thread.index', compact('pertanyaan'));
+        //
     }
 
     /**
@@ -34,7 +29,10 @@ class ThreadController extends Controller
      */
     public function create()
     {
-        //
+        $jawaban = Jawaban::get();
+
+        // dd($jawaban);
+        return view('komentarJawaban.create', compact('jawaban'));
     }
 
     /**
@@ -45,7 +43,23 @@ class ThreadController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'isi' => 'required'
+        ]);
+
+        $komentarjawaban = Komentarjawaban::create([
+            'isi' => $request['isi'],
+            'jawaban_id' => $request['jawaban_id']
+        ]);
+
+        // dd($jawaban);
+
+        $author = Auth::user();
+        $author->jawabans()->save($komentarjawaban);
+
+        Alert::alert('Success', 'Komentar Berhasil Ditambahkan', 'success');
+
+        return redirect('/thread')->with('success', 'Komentar Berhasil Ditambahkan');
     }
 
     /**
@@ -56,14 +70,10 @@ class ThreadController extends Controller
      */
     public function show($id)
     {
-        $pertanyaan = Pertanyaan::findOrFail($id);
-        $jawaban = Jawaban::where('pertanyaan_id', $id)->get();
-        $komentar = KomentarPertanyaan::where('pertanyaan_id', $id)->get();
-        $user = User::where('id', $pertanyaan['user_id'])->first();
-        $jawaban_tepat = Jawaban::where('id', $pertanyaan->jawaban_tepat_id)->first();
+        $jawaban = Jawaban::findOrFail($id);
+        $komentar_jawaban = KomentarJawaban::where('jawaban_id', $id)->get();
 
-        $no = 1;
-        return view('thread.show', compact('pertanyaan', 'jawaban', 'komentar', 'user', 'no', 'jawaban_tepat'));
+        return view('komentarJawaban.show', compact('jawaban', 'komentar_jawaban'));
     }
 
     /**

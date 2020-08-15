@@ -36,7 +36,6 @@ class PertanyaanController extends Controller
      */
     public function create()
     {
-
         return view('pertanyaan.create');
     }
 
@@ -95,10 +94,11 @@ class PertanyaanController extends Controller
     {
         $pertanyaan = Pertanyaan::findOrFail($id);
         $jawaban = Jawaban::where('pertanyaan_id', $id)->get();
+        $jawaban_tepat = Jawaban::where('id', $pertanyaan->jawaban_tepat_id)->first();
+        
+        // dd($jawaban_tepat);
 
-        // dd($jawaban);
-
-        return view('/pertanyaan.show', compact('pertanyaan', 'jawaban'));
+        return view('/pertanyaan.show', compact('pertanyaan', 'jawaban', 'jawaban_tepat'));
     }
 
     /**
@@ -146,7 +146,7 @@ class PertanyaanController extends Controller
         $delete = Pertanyaan::destroy($id);
 
         // dd($delete);
-        
+
         Alert::alert('Berhasil', 'Data berhasil dihapus', 'warning');
 
         return redirect('/question')->with('success', 'Sukses mengahapus data.');

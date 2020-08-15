@@ -1,41 +1,45 @@
-<?php 
-
-use App\Pertanyaan;
-
- ?>
-
 @extends('adminLTE.master')
 
 @section('content')
-  <div class="col-md-12">
+	<div class="col-md-6">
     <!-- general form elements -->
     <div class="card card-primary">
       <div class="card-header">
-        <h3 class="card-title">Forums</h3>
+        <h3 class="card-title">Input Data Komentar Pertanyaan</h3>
       </div>
       <!-- /.card-header -->
-        @if (session('success'))
-          <div class="alert alert-success">
-           {{ session('success') }}
-          </div>
-        @endif
+      <!-- form start -->
+      @if ($errors->any())
+      <div class="alert alert-danger">
+          <ul>
+              @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+              @endforeach
+          </ul>
+        </div>
+      @endif
 
-        @forelse($pertanyaan as $tanya)
+      <form role="form" action="{{ route('komentarPertanyaan.store')}}" method="post">
+        @csrf
         <div class="card-body">
           <div class="form-group">
-            <h5>
-              <label for="exampleInputEmail1">{{ $tanya->judul }}</label> 
-            </h5>
+            <label for="judul">Komentar</label>
+            <input type="text" class="form-control" id="exampleInputEmail1" name="isi" placeholder="Masukkan Komentar Anda" required>
           </div>
           <div class="form-group">
-            <p style="color: grey; font-size: 15px;">Deskripsi : </p>
-            <p class="form-group" id="exampleInputEmail1"> {!! $tanya->isi !!} </p>
+            <label>Pertanyaan</label>
+            <select class="form-control" name="pertanyaan_id" >
+              @forelse($pertanyaan as $t)
+              <option value="{{ $t->id }}">Pertanyaan : {!! $t->isi !!}</option>
+              @empty
+              <h5 value="0">Belum ada jawaban</h5>
+              @endforelse
+            </select>
           </div>
-          <a href="{{ route('thread.show', [$tanya->id]) }}" class="btn btn-info btn-sm">Detail Pertanyaan</a>
+        <div class="card-footer">
+          <button type="submit" class="btn btn-primary" value="save" name="submit" onclick="return confirm('Apakah jawaban sudah valid?')">Submit</button>
         </div>
-          @empty
-          <p>Tidak ada pertanyaan</p>
-        @endforelse
+      </form>
     </div>
   </div>
 @endsection

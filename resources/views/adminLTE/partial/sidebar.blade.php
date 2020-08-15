@@ -56,6 +56,11 @@
             </a>
           </li>
           <li class="nav-item has-treeview">
+            <a href="{{ route('question.index') }}" class="nav-link">
+              Pertanyaan Anda
+            </a>
+          </li>
+          <li class="nav-item has-treeview">
             <a href="{{ route('jawab.index') }}" class="nav-link">
               Jawaban Anda
             </a>

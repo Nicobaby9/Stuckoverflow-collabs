@@ -28,3 +28,12 @@ Route::resource('question', 'PertanyaanController')->middleware('auth');
 Route::resource('thread', 'ThreadController')->middleware('auth');
 
 Route::resource('jawab', 'JawabController')->middleware('auth');
+
+Route::resource('komentarPertanyaan', 'komentarPertanyaanController')->middleware('auth');
+
+Route::resource('komentarJawaban', 'komentarJawabanController')->middleware('auth');
+
+
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+     \UniSharp\LaravelFilemanager\Lfm::routes();
+ });

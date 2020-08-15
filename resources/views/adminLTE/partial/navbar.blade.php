@@ -5,10 +5,10 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="/question" class="nav-link">Home</a>
+        <a href="/thread" class="nav-link">Home</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="/question/create" class="nav-link">Add Pertanyaan</a>
+        <a href="/question/create" class="nav-link">Buat Pertanyaan</a>
       </li>
     </ul>
 
