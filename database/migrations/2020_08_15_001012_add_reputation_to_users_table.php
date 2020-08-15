@@ -14,7 +14,7 @@ class AddReputationToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->integer('reputation')->nullable();
+            $table->integer('reputation')->default(0)->nullable();
         });
     }
 
