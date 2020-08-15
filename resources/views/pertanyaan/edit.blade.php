@@ -49,7 +49,7 @@
             <label>Jawaban Tepat ID Select</label>
             <select class="form-control" name="jawaban_tepat_id">
               @forelse($jawaban as $j)
-              <option value="{{ $j->id }}">Id : {{ $j->id }} &nbsp; - &nbsp; Isi : {{ $j->isi }}</option>
+              <option value="{{ $j->id }}">Isi Jawaban : {!! $j->isi !!}</option>
               @empty
               <h5 value="0">Belum ada jawaban</h5>
               @endforelse
